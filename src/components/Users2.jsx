@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 
 const Users2 = () => {
 
-   const {isPending, data: users} = useQuery({
+   const {isPending, isError, error, data: users} = useQuery({
       queryKey: ['users'],
       queryFn: async () => {
          const res = await fetch('http://localhost:5000/user')
@@ -46,7 +46,15 @@ const Users2 = () => {
       })
    }
    if(isPending){
-      return 
+      return (
+         <div className="flex justify-center">
+            <span className="loading loading-spinner text-error mt-9 "></span>
+         </div>
+         
+      )
+   }
+   if(isError){
+      return <p>{error.message}</p>
    }
    return (
       <div>
@@ -65,7 +73,7 @@ const Users2 = () => {
                <tbody>
                   {/* row 1 */}
                   {
-                     users?.map(user => <tr key={user._id}>
+                     users.map(user => <tr key={user._id}>
                         <th>1</th>
                         <td>{user.email}</td>
                         <td>Quality Control Specialist</td>
