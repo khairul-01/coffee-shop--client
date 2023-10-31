@@ -1,6 +1,7 @@
+import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2'
 
-const CoffeeCard = ({ coffee }) => {
+const CoffeeCard = ({ coffee, coffees, setCoffees }) => {
    const { _id, name, quantity, supplier, taste, category, details, photo } = coffee;
 
    const handleDelete = id => {
@@ -16,12 +17,12 @@ const CoffeeCard = ({ coffee }) => {
       }).then((result) => {
          if (result.isConfirmed) {
 
-            fetch(`http://localhost:5000/coffee/${_id}`, {
+            fetch(`http://localhost:5000/coffee/${id}`, {
                method: 'DELETE'
             })
                   .then(res => res.json())
                   .then(data => {
-                     console.log(data)
+                     console.log(data);
                      if(data.deletedCount>0){
                         Swal.fire(
                            'Deleted!',
@@ -30,6 +31,8 @@ const CoffeeCard = ({ coffee }) => {
                           // console.log('delete confirmed'),
                           
                        )
+                       const remaining = coffees.filter(cof => cof._id !== id);
+                       setCoffees(remaining);
                      }
                   })
             
@@ -51,7 +54,7 @@ const CoffeeCard = ({ coffee }) => {
                <div className="card-actions justify-end">
                   <div className="btn-group btn-group-vertical space-y-2">
                      <button className="btn btn-success">View</button>
-                     <button className="btn btn-success">Edit</button>
+                     <Link to={`updateCoffee/${_id}`}><button className="btn btn-success">Edit</button></Link>
                      <button
                         onClick={() => handleDelete(_id)}
                         className="btn btn-success bg-orange-400">X</button>

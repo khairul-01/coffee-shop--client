@@ -48,7 +48,7 @@ const AddCoffee = () => {
                      <span className="label-text">Coffee Name</span>
                   </label>
                   <label className="input-group">
-                     <input type="text" placeholder="coffee name" name="name" className="input input-bordered w-full" />
+                     <input type="text" placeholder="Coffee name" name="name" className="input input-bordered w-full" />
                   </label>
                </div>
                <div className="form-control md:w-1/2">
@@ -67,26 +67,26 @@ const AddCoffee = () => {
                      <span className="label-text">Supplier</span>
                   </label>
                   <label className="input-group">
-                     <input type="text" placeholder="supplier name" name="supplier" className="input input-bordered w-full" />
+                     <input type="text" placeholder="Supplier name" name="supplier" className="input input-bordered w-full" />
                   </label>
                </div>
                <div className="form-control md:w-1/2">
                   <label className="label">
-                     <span className="label-text">Test</span>
+                     <span className="label-text">Taste</span>
                   </label>
                   <label className="input-group">
-                     <input type="text" placeholder="taste" name="taste" className="input input-bordered w-full" />
+                     <input type="text" placeholder="Taste" name="taste" className="input input-bordered w-full" />
                   </label>
                </div>
             </div>
-            {/* form catergory and details row */}
+            {/* form category and details row */}
             <div className="flex">
                <div className="form-control md:w-1/2">
                   <label className="label">
-                     <span className="label-text">Catergory</span>
+                     <span className="label-text">Category</span>
                   </label>
                   <label className="input-group">
-                     <input type="text" placeholder="catergory name" name="category" className="input input-bordered w-full" />
+                     <input type="text" placeholder="Category name" name="category" className="input input-bordered w-full" />
                   </label>
                </div>
                <div className="form-control md:w-1/2">
@@ -102,10 +102,10 @@ const AddCoffee = () => {
             <div className="">
                <div className="form-control w-full">
                   <label className="label">
-                     <span className="label-text">Coffee Name</span>
+                     <span className="label-text">Photo URL</span>
                   </label>
                   <label className="input-group">
-                     <input type="text" placeholder="coffee name" name="photo" className="input input-bordered w-full" />
+                     <input type="text" placeholder="Photo url" name="photo" className="input input-bordered w-full" />
                   </label>
                </div>
 
