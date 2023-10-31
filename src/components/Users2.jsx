@@ -1,12 +1,16 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useLoaderData } from "react-router-dom";
-import Swal from 'sweetalert2'
+import { useQuery } from "@tanstack/react-query";
+import Swal from "sweetalert2";
 
-const Users = () => {
 
-   const loadedUsers = useLoaderData();
-   const [users, setUsers] = useState(loadedUsers);
+const Users2 = () => {
+
+   const {isPending, data: users} = useQuery({
+      queryKey: ['users'],
+      queryFn: async () => {
+         const res = await fetch('http://localhost:5000/user')
+         return res.json();
+      }
+   })
 
    const handleDelete = (id) => {
       console.log(id);
@@ -34,14 +38,16 @@ const Users = () => {
                         // console.log('delete confirmed'),
 
                      )
-                     const remaining = users.filter(usser => usser._id !== id);
-                       setUsers(remaining);
+                     // const remaining = users.filter(usser => usser._id !== id);
+                     //   setUsers(remaining);
                   }
                })
          }
       })
    }
-
+   if(isPending){
+      return 
+   }
    return (
       <div>
          <div className="overflow-x-auto">
@@ -59,7 +65,7 @@ const Users = () => {
                <tbody>
                   {/* row 1 */}
                   {
-                     users.map(user => <tr key={user._id}>
+                     users?.map(user => <tr key={user._id}>
                         <th>1</th>
                         <td>{user.email}</td>
                         <td>Quality Control Specialist</td>
@@ -77,4 +83,4 @@ const Users = () => {
    );
 };
 
-export default Users;
+export default Users2;

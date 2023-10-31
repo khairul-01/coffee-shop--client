@@ -1,3 +1,4 @@
+import axios from 'axios';
 import Swal from 'sweetalert2'
 
 const AddCoffee = () => {
@@ -16,7 +17,13 @@ const AddCoffee = () => {
       const newCoffee = { name, quantity, supplier, taste, category, details, photo };
       console.log(newCoffee);
 
-      // send data to the server
+      // using axios
+      // axios.post('http://localhost:5000/coffee', newCoffee)
+      // .then(data => {
+      //    console.log(data.data);
+      // })
+
+      // send data to the server using fetch
       fetch('http://localhost:5000/coffee', {
          method: 'POST',
          headers: {

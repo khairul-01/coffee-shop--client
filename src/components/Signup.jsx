@@ -1,11 +1,12 @@
 import { useContext } from "react";
 import { AuthContext } from "../provider/AuthProvider";
 import Swal from 'sweetalert2'
+import axios from "axios";
 
 
 const Signup = () => {
 
-   const {createUser} = useContext(AuthContext);
+   const { createUser } = useContext(AuthContext);
 
    const handleSignup = e => {
       e.preventDefault();
@@ -15,33 +16,46 @@ const Signup = () => {
       console.log(email, password);
 
       createUser(email, password)
-      .then(result => {
-         console.log(result.user);
-         const createdAt = result.user?.metadata?.creationTime;
-         const newUser = {email, createdAt};
-         fetch('http://localhost:5000/user', {
-            method: 'POST',
-            headers: {
-               'content-type' : 'application/json'
-            },
-            body: JSON.stringify(newUser),
+         .then(result => {
+            console.log(result.user);
+            const createdAt = result.user?.metadata?.creationTime;
+            const newUser = { email, createdAt };
+            // using axios
+            axios.post('http://localhost:5000/user', newUser)
+               .then(data => {
+                  console.log(data.data);
+                  if(data.data.insertedId){
+                           Swal.fire({
+                              title: 'Success!',
+                              text: 'User added successfully',
+                              icon: 'success',
+                              confirmButtonText: 'Cool'
+                            })
+                        }
+               })
+            // fetch('http://localhost:5000/user', {
+            //    method: 'POST',
+            //    headers: {
+            //       'content-type' : 'application/json'
+            //    },
+            //    body: JSON.stringify(newUser),
+            // })
+            // .then(res => res.json())
+            // .then(data => {
+            //    console.log(data);
+            //    if(data.insertedId){
+            //       Swal.fire({
+            //          title: 'Success!',
+            //          text: 'User added successfully',
+            //          icon: 'success',
+            //          confirmButtonText: 'Cool'
+            //        })
+            //    }
+            // })
          })
-         .then(res => res.json())
-         .then(data => {
-            console.log(data);
-            if(data.insertedId){
-               Swal.fire({
-                  title: 'Success!',
-                  text: 'User added successfully',
-                  icon: 'success',
-                  confirmButtonText: 'Cool'
-                })
-            }
+         .catch(error => {
+            console.error(error);
          })
-      })
-      .catch(error => {
-         console.error(error);
-      })
    }
 
    return (
@@ -50,7 +64,7 @@ const Signup = () => {
             <div className="hero-content flex-col ">
                <div className="text-center ">
                   <h1 className="text-5xl font-bold">Register now!</h1>
-                  
+
                </div>
                <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
                   <form onSubmit={handleSignup} className="card-body">

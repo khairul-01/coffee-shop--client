@@ -1,10 +1,11 @@
 import { useContext } from "react";
 import { AuthContext } from "../provider/AuthProvider";
+import axios from "axios";
 
 
 const Signin = () => {
 
-   const {signinUser} = useContext(AuthContext);
+   const { signinUser } = useContext(AuthContext);
 
    const handleSignin = e => {
       e.preventDefault();
@@ -12,30 +13,37 @@ const Signin = () => {
       const email = form.email.value;
       const password = form.password.value;
       console.log(email, password);
-      const newUser = {email}
+      const newUser = { email }
 
       signinUser(email, password)
-      .then(result => {
-         console.log(result.user);
-         const user = {
-            email,
-            lastLoggedAt: result.user?.metadata?.lastSignInTime,
-         }
-         fetch('http://localhost:5000/user', {
-            method: 'PATCH',
-            headers: {
-               'content-type' : 'application/json'
-            },
-            body: JSON.stringify(user)
+         .then(result => {
+            console.log(result.user);
+            const user = {
+               email,
+               lastLoggedAt: result.user?.metadata?.lastSignInTime,
+            }
+
+            axios.patch('http://localhost:5000/user', user)
+               .then(data => {
+                  console.log(data.data);
+               })
+
+            // update last logged at in db
+            // fetch('http://localhost:5000/user', {
+            //    method: 'PATCH',
+            //    headers: {
+            //       'content-type' : 'application/json'
+            //    },
+            //    body: JSON.stringify(user)
+            // })
+            // .then(res => res.json())
+            // .then(data => {
+            //    console.log(data);
+            // })
          })
-         .then(res => res.json())
-         .then(data => {
-            console.log(data);
+         .catch(error => {
+            console.error(error)
          })
-      })
-      .catch(error => {
-         console.error(error)
-      })
 
    }
    return (
